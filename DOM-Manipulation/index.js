@@ -1,6 +1,6 @@
 const title = document.createElement("h1");
 title.id = "title";
-title.innerText = "To Do List by Lois using DOM Manipulation";
+title.innerText = "To Do by Lois using DOM Manipulation";
 
 const div1 = document.createElement("div");
 div1.id = "div-inputs";
@@ -20,15 +20,22 @@ addButton.innerText = "Add Task";
 const taskList = document.createElement("ul");
 taskList.id = "task-list";
 
+const taskContainer = document.createElement("div");
+taskContainer.className = "task-container";
+
+taskContainer.appendChild(taskList); // put the tasks inside this container
+
+
 const mainDiv = document.getElementById("to-do");
 
 // Build structure
 mainDiv.appendChild(title);
 mainDiv.appendChild(div1);
 div1.appendChild(div2);
-div1.appendChild(taskList);
 div2.appendChild(inputItem);
-div2.appendChild(addButton);
+div2.appendChild(addButton);        // input + buttons
+div1.appendChild(taskContainer); // scrollable task area
+
 
 // Add new task
 addButton.addEventListener("click", function () {
@@ -105,4 +112,47 @@ function removeTask(taskElement) {
   let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
   tasks = tasks.filter((t) => t !== taskText); // Remove only the clicked one
   localStorage.setItem("tasks", JSON.stringify(tasks));
+}
+
+
+// assignment: to create a timer that adds tasks from an array to the list every 5 seconds
+const startAutoTasks = document.createElement("button");
+startAutoTasks.id = "start-auto-tasks";
+startAutoTasks.innerText = "Auto Tasks";
+div2.appendChild(startAutoTasks);
+startAutoTasks.addEventListener("click", function () {
+  startAutoTasks.disabled = true; // Prevent multiple clicks
+  autoAddTasks();
+});
+
+function autoAddTasks() { 
+const Tasks = [
+  "Go grocery shopping",
+  "Finish the report",
+"Read a book",
+  "Exercise for 30 minutes",
+  "Call a friend",
+  "Plan the weekend trip",
+  "Clean the house",
+  "Prepare dinner",
+  "Write in journal",
+  "Meditate for 10 minutes"
+];
+
+for (let i = 0; i < Tasks.length; i++) {
+  setTimeout(() => {
+    const taskText = Tasks[i];
+    const task = document.createElement("li");
+    task.textContent = taskText;  
+    const span = document.createElement("span");
+    span.className = "close";
+    span.textContent = "\u00D7"; 
+    task.appendChild(span);
+    taskList.appendChild(task);
+    saveTasks();
+    span.onclick = function () {
+      removeTask(task);
+    };
+  }, i * 5000); 
+}
 }
