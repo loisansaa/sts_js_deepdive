@@ -41,7 +41,10 @@ async function getWeather() {
   // get the value when the button is clicked
  try {
    const inputCityValue = inputCity.value.toLowerCase();
-
+  if (inputCityValue === "") {
+    alert("Please enter a city name!");
+    return;
+  }
   const fetchWeather = await fetch(
     `https://api.weatherapi.com/v1/current.json?key=${API_KEY}&q=${inputCityValue}`
   );
