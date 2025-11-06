@@ -1,4 +1,4 @@
-import React,{ useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 
 const Clock = () => {
   const [time, setTime] = useState(new Date());
@@ -12,6 +12,7 @@ const Clock = () => {
   useEffect(() => {
     const hour = time.getHours();
     setTheme(hour >= 6 && hour < 18 ? 'light' : 'dark');
+
   }, [time]);
 
   return (
@@ -25,4 +26,4 @@ const Clock = () => {
   );
 };
 
-export default Clock;
+export default Clock;//Exporting Clock component
